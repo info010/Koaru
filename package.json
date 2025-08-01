@@ -9,8 +9,7 @@
     "node-fetch": "^3.3.2"
   },
   "scripts": {
-    "start": "node src/index.js",
-    "test": "jest --verbose --coverage"
+    "start": "node src/index.js"
   },
   "devDependencies": {
     "@babel/core": "^7.28.0",

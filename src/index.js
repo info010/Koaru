@@ -2,7 +2,7 @@ import { client } from "./discord/bot.js";
 import { checkNewChapters } from "./services/chapterService.js";
 import { checkNewAnimes, setupReactionListeners } from "./services/animeService.js";
 
-const TIME_INTERVAL =  10 * 10 * 1000; // 10 dakika
+const TIME_INTERVAL =  60 * 10 * 1000; // 10 dakika
 
 client.once("ready", async () => {
   console.log(`Discord bot hazır! Giriş yapan: ${client.user.tag}`);
