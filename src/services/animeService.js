@@ -68,11 +68,6 @@ export function setupReactionListeners() {
 }
 
 async function handleReaction(reaction, user, added) {
-  console.log(
-    `Reaction ${added ? "added" : "removed"} by ${user.tag}: ${
-      reaction.emoji.name
-    }`
-  );
   if (reaction.message.partial) await reaction.message.fetch();
   if (reaction.partial) await reaction.fetch();
 
