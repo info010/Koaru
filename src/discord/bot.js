@@ -1,4 +1,4 @@
-import { Client, GatewayIntentBits, Partials, EmbedBuilder } from 'discord.js';
+import { Client, GatewayIntentBits, Partials} from 'discord.js';
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -53,6 +53,20 @@ function setupReactionListeners() {
   });
 }
 
+async function injectStats() {
+  client.on('interactionCreate', async interaction => {
+  if (!interaction.isChatInputCommand()) return;
+
+  if (interaction.commandName === 'stats') {
+    const { execute } = await import('./commands/stats.js');
+    await execute(interaction);
+  }
+  if (interaction.commandName === 'role') {
+    const { execute } = await import('./commands/mentionRole.js');
+    await execute(interaction);
+  }
+});
+}
 
 export {
   client,
@@ -61,5 +75,6 @@ export {
   sendMessage,
   sendDM,
   CHANNELS,
-  setupReactionListeners
+  setupReactionListeners,
+  injectStats
 };

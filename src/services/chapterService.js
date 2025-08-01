@@ -30,6 +30,7 @@ export async function checkNewChapters() {
       };
 
       // Ana kanala gönder
+      await sendMessage(CHANNELS.episodes, "<@&1400891301599248536>")
       await sendEmbed(CHANNELS.episodes, embed);
 
       // DB'ye kaydet

@@ -32,9 +32,9 @@ const animesQuery = gql`
   Page(page: $page, perPage: $perPage) {
     media(
       type: ANIME
-      format_in: [TV, MOVIE]
+      format_in: [TV, MOVIE, ONA, OVA, TV_SHORT, SPECIAL]
       status: RELEASING
-      sort: POPULARITY_DESC
+      sort: TRENDING_DESC
     ) {
       id
       title {
@@ -64,7 +64,7 @@ export async function fetchRecentAnimes(page = 1, perPage = 50) {
   try {
     const client = new GraphQLClient(endpoint);
     const data = await client.request(animesQuery, { page, perPage });
-    return data.Page.media.reverse();
+    return data.Page.media.reverse(); // En son eklenenler en başta olacak şekilde ters çevir
   } catch (error) {
     console.log("Animes çekilirken hata oluştu:", error);
     return []; // Hata durumunda boş bir dizi döndür
