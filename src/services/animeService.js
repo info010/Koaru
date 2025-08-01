@@ -4,16 +4,19 @@ import { fetchRecentAnimes } from "./anilistService.js";
 
 const FOLLOW_EMOJI = "👀";
 
-async function checkNewAnimes(season, seasonYear) {
-  const animes = await fetchRecentAnimes(season, seasonYear);
+export async function checkNewAnimes() {
+  console.log("Yeni animeler kontrol ediliyor...");
+  const animes = await fetchRecentAnimes();
+
+  const existingAnimes = db.prepare("SELECT mediaId, title FROM animes").all();
+
+  // existingAnimes'i bir Set'e dönüştür
+  const existingAnimesSet = new Set(existingAnimes.map(anime => anime.mediaId));
 
   for (const anime of animes) {
-    const exists = db
-      .prepare("SELECT 1 FROM animes WHERE mediaId = ?")
-      .get(anime.id);
-    if (!exists) {
+    if (!existingAnimesSet.has(anime.id)) {
       const title = anime.title.english || anime.title.romaji;
-
+      console.log(`Yeni anime bulundu: ${title} (${anime.id})`);
       const startDateStr = anime.startDate
         ? `${anime.startDate.day || "??"}/${anime.startDate.month || "??"}/${
             anime.startDate.year || "????"
@@ -52,7 +55,7 @@ async function checkNewAnimes(season, seasonYear) {
   }
 }
 
-function setupReactionListeners() {
+export function setupReactionListeners() {
   client.on("messageReactionAdd", async (reaction, user) => {
     if (user.bot) return;
     await handleReaction(reaction, user, true);
@@ -120,5 +123,3 @@ async function handleReaction(reaction, user, added) {
     }
   }
 }
-
-export { checkNewAnimes, setupReactionListeners };

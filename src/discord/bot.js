@@ -47,11 +47,19 @@ async function sendDM(userId, content) {
   return await user.send(content);
 }
 
+function setupReactionListeners() {
+  client.on('messageReactionAdd', (reaction, user) => {
+    console.log(`[Reaction] ${user.tag} reacted with ${reaction.emoji.name}`);
+  });
+}
+
+
 export {
   client,
   startDiscordBot,
   sendEmbed,
   sendMessage,
   sendDM,
-  CHANNELS
+  CHANNELS,
+  setupReactionListeners
 };

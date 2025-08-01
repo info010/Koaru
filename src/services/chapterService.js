@@ -2,20 +2,22 @@ import db from "../db/sqlite.js";
 import { sendEmbed, client, CHANNELS } from "../discord/bot.js";
 import { fetchRecentEpisodes } from "./anilistService.js";
 
-async function checkNewChapters() {
+export async function checkNewChapters() {
+  console.log("Yeni bölümler kontrol ediliyor...");
   const episodes = await fetchRecentEpisodes();
 
+  const existingChapters = db.prepare("SELECT mediaId, episode FROM chapters").all();
+
+  const existingChaptersSet = new Set(
+    existingChapters.map(chapter => `${chapter.mediaId}-${chapter.episode}`)
+  );
+
   for (const ep of episodes) {
-    // Bölüm zaten bildirilmiş mi kontrol et
-    const exists = db
-      .prepare(
-        "SELECT 1 FROM chapters WHERE mediaId = ? AND episode = ?"
-      )
-      .get(ep.media.id, ep.episode);
 
-    if (!exists) {
+    if (!existingChaptersSet.has(`${ep.media.id}-${ep.episode}`)) {
+      console.log(`Yeni bölüm bulundu: ${ep.media.title.english} - Bölüm ${ep.episode}`);
       const title = ep.media.title.english || ep.media.title.romaji;
-
+      
       // Bölüm bildirimi embedi
       const embed = {
         title: `🎬 Yeni Bölüm: ${title} - Bölüm ${ep.episode}`,
@@ -53,10 +55,9 @@ async function checkNewChapters() {
           }
         } catch (error) {
           console.warn(`DM gönderilemedi: ${follower.userId}`, error);
+          continue;
         }
       }
     }
   }
 }
-
-export { checkNewChapters };
