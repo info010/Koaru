@@ -10,7 +10,8 @@
   },
   "scripts": {
     "start": "node src/index.js",
-    "deploy": "node src/discord/commands/deployCommands.js"
+    "deploy": "node src/discord/commands/deployCommands.js",
+    "voice": "node weebhook/voice.js"
   },
   "devDependencies": {
     "@babel/core": "^7.28.0",

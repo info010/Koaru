@@ -1,5 +1,5 @@
 import db from "../db/sqlite.js";
-import { sendEmbed, client, CHANNELS } from "../discord/bot.js";
+import { sendEmbed, client, CHANNELS, sendMessage } from "../discord/bot.js";
 import { fetchRecentEpisodes } from "./anilistService.js";
 
 export async function checkNewChapters() {
