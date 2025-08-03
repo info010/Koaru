@@ -18,6 +18,7 @@ export async function checkNewChapters() {
       console.log(`Yeni bölüm bulundu: ${ep.media.title.english} - Bölüm ${ep.episode}`);
       const title = ep.media.title.english || ep.media.title.romaji;
       
+      if (!title == "Nukitashi THE ANIMATION") continue; // Özel durum: Nukitashi THE ANIMATION'ı atla
       // Bölüm bildirimi embedi
       const embed = {
         title: `🎬 Yeni Bölüm: ${title} - Bölüm ${ep.episode}`,
@@ -46,6 +47,7 @@ export async function checkNewChapters() {
         .prepare("SELECT userId FROM user_follows WHERE mediaId = ?")
         .all(ep.media.id);
 
+        /*
       for (const follower of followers) {
         try {
           const user = await client.users.fetch(follower.userId);
@@ -58,7 +60,7 @@ export async function checkNewChapters() {
           console.warn(`DM gönderilemedi: ${follower.userId}`, error);
           continue;
         }
-      }
+      }*/
     }
   }
 }
