@@ -18,7 +18,7 @@ export async function checkNewChapters() {
       console.log(`Yeni bölüm bulundu: ${ep.media.title.english} - Bölüm ${ep.episode}`);
       const title = ep.media.title.english || ep.media.title.romaji;
       
-      if (!title == "Nukitashi THE ANIMATION") continue; // YARDIM ET
+      if (title == "Nukitashi THE ANIMATION") continue; // YARDIM ET
       // Bölüm bildirimi embedi
       const embed = {
         title: `🎬 Yeni Bölüm: ${title} - Bölüm ${ep.episode}`,
